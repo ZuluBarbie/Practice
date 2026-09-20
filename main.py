@@ -67,7 +67,8 @@ def load_scores(path=None):
         if level in MAZES and isinstance(score, dict)
         and type(score.get("moves")) is int and score["moves"] > 0
         and type(score.get("time")) in (int, float)
-        and math.isfinite(score["time"]) and score["time"] >= 0
+        and score["time"] >= 0
+        and (type(score["time"]) is int or math.isfinite(score["time"]))
     }
 
 

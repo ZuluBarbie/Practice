@@ -97,6 +97,11 @@ class GameTests(unittest.TestCase):
             self.assertFalse(game.save_scores({}, Path(self.temp.name)))
         self.assertIn("Could not save", output.getvalue())
 
+    def test_large_integer_time_does_not_crash_loading(self):
+        scores = {"1": {"moves": 8, "time": 10 ** 400}}
+        self.path.write_text(json.dumps(scores), encoding="utf-8")
+        self.assertEqual(game.load_scores(), scores)
+
     def test_real_cli_from_another_folder(self):
         result = subprocess.run([sys.executable, str(Path(game.__file__).resolve())],
                                 input="q\n", text=True, capture_output=True,
